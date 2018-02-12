@@ -1,0 +1,21 @@
+{
+  "name": "asp.net",
+  "private": true,
+  "dependencies": {
+    "jquery": "^3.3.1",
+    "font-awesome": "4.7.0",
+    "knockout": "v3.4.2",
+    "moment": "2.20.1",
+    "knockout-mapping": "2.4.1",
+    "jquery-slimscroll": "slimscroll#v1.3.8",
+    "jquery.cookie": "jquery-cookie#v1.4.1",
+    "bootstrap": "v4.0.0",
+    "jquery-validation": "1.17.0",
+    "jquery-validation-unobtrusive": "v3.2.6"
+  },
+  "resolutions": {
+    "jquery": "^3.3.1",
+    "jquery-validation": "1.17.0",
+    "bootstrap": "v4.0.0"
+  }
+}

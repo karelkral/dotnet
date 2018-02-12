@@ -1,0 +1,23 @@
+﻿@using brechtbaekelandt.ldap.Identity
+
+@inject LdapSignInManager SignInManager
+@inject LdapUserManager UserManager
+
+@{
+    this.ViewData["Title"] = "Home";
+    this.ViewData["CurrentPage"] = "Home";
+}
+<h2>Home</h2>
+<hr />
+@if (this.SignInManager.IsSignedIn(User))
+{
+<p>
+    You are signed in, go to <a asp-area="" asp-controller="Manage" asp-action="Index">Manage</a>.
+</p>
+}
+else
+{
+    <p>
+        <a asp-area="" asp-controller="Account" asp-action="Signin">Sign in</a> to continue...
+    </p>
+}

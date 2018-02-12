@@ -1,0 +1,185 @@
+﻿@model brechtbaekelandt.ldap.ViewModels.ManageViewModel
+
+@{
+    this.ViewData["Title"] = "Manage";
+    this.ViewData["CurrentPage"] = "Manage";
+
+    var showModal = false;
+}
+
+<h2>Manage</h2>
+<hr />
+
+<h5>LDAP users:</h5>
+
+<table class="table table-responsive table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th>Username</th>
+            <th>sAMAccountName</th>
+            <th>User principal name</th>
+            <th>Common name</th>
+            <th>Distinguished name</th>
+            <th>Display name</th>
+            <th>Full name</th>
+            <th>Email address</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in this.Model.Users)
+        {
+            <tr>
+                <td>
+                    <span>@user.UserName</span>
+                </td>
+                <td>
+                    <span>@user.SamAccountName</span>
+                </td>
+                <td>
+                    <span>@user.UserPrincipalName</span>
+                </td>
+                <td>
+                    <span>@user.CommonName</span>
+                </td>
+                <td>
+                    <span>@user.DistinguishedName</span>
+                </td>
+                <td>
+                    <span>@user.DisplayName</span>
+                </td>
+                <td>
+                    <span>@user.FullName</span>
+                </td>
+                <td>
+                    <span>@user.EmailAddress</span>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h5>Create a user:</h5>
+
+<div asp-validation-summary="All" class="text-danger"></div>
+@{
+    var errorMessage = this.TempData["ErrorMessage"]?.ToString();
+
+    if (!string.IsNullOrEmpty(errorMessage))
+    {
+        <div class="alert alert-danger">
+            <strong>Oops!</strong> @errorMessage
+        </div>
+    }
+}
+
+<form method="post" asp-controller="Manage" asp-action="CreateUser">
+    <div class="form-group">
+        <div class="input-group">
+            <span class="input-group-prepend"><i class="fa fa-user-o"></i></span>
+            <input asp-for="NewUser.UserName" placeholder="Username *" class="form-control" autocomplete="off" />
+        </div>
+        <span asp-validation-for="NewUser.UserName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <div class="input-group">
+            <span class="input-group-prepend"><i class="fa fa-lock"></i></span>
+            <input asp-for="NewUser.Password" placeholder="Password *" class="form-control" autocomplete="off" />
+        </div>
+        <span asp-validation-for="NewUser.Password" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <div class="checkbox">
+            <label><input asp-for="NewUser.IsDomainAdmin" type="checkbox" /> <span>Is domain admin?</span></label>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="input-group">
+            <span class="input-group-prepend"><i class="fa fa-user-o"></i></span>
+            <input asp-for="NewUser.CommonName" placeholder="Common name *" class="form-control" />
+        </div>
+        <span asp-validation-for="NewUser.CommonName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <div class="input-group">
+            <span class="input-group-prepend"><i class="fa fa-user-o"></i></span>
+            <input asp-for="NewUser.DisplayName" placeholder="Display name" class="form-control" />
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="input-group">
+            <span class="input-group-prepend"><i class="fa fa-user-o"></i></span>
+            <input asp-for="NewUser.FirstName" placeholder="First name *" class="form-control" />
+        </div>
+        <span asp-validation-for="NewUser.FirstName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <div class="input-group">
+            <span class="input-group-prepend"><i class="fa fa-user-o"></i></span>
+            <input asp-for="NewUser.LastName" placeholder="Last name *" class="form-control" />
+        </div>
+        <span asp-validation-for="NewUser.LastName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <div class="input-group">
+            <span class="input-group-prepend"><i class="fa fa-user-o"></i></span>
+            <input asp-for="NewUser.Description" placeholder="Description" class="form-control" />
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="input-group">
+            <span class="input-group-prepend"><i class="fa fa-at"></i></span>
+            <input asp-for="NewUser.EmailAddress" placeholder="Email address *" class="form-control" />
+        </div>
+        <span asp-validation-for="NewUser.EmailAddress" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <div class="input-group">
+            <span class="input-group-prepend"><i class="fa fa-phone"></i></span>
+            <input asp-for="NewUser.PhoneNumber" placeholder="Phone number" class="form-control" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="input-group">
+            <span class="input-group-prepend"><i class="fa fa-map-marker"></i></span>
+            <input asp-for="NewUser.Address.Street" placeholder="Street" class="form-control" />
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-prepend"><i class="fa fa-map-marker"></i></span>
+                    <input asp-for="NewUser.Address.PostalCode" placeholder="Postal code" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-prepend"><i class="fa fa-map-marker"></i></span>
+                    <input asp-for="NewUser.Address.City" placeholder="City" class="form-control" />
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="input-group">
+            <span class="input-group-prepend"><i class="fa fa-map-marker"></i></span>
+            <input asp-for="NewUser.Address.StateName" placeholder="State" class="form-control" />
+
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="input-group">
+            <span class="input-group-prepend"><i class="fa fa-map-marker"></i></span>
+            <input asp-for="NewUser.Address.CountryName" placeholder="Country" class="form-control" />
+        </div>
+    </div>
+   
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Create!</button>
+    </div>
+</form>

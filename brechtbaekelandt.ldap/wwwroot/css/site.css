@@ -1,0 +1,25 @@
+﻿html, * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+
+body {
+    height: 100%;
+    line-height: 1.5em;
+}
+
+*:focus {
+    outline: none !important;
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    color: #404040;
+}
+
+.body-content {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
