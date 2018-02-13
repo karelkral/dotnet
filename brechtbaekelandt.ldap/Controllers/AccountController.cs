@@ -12,7 +12,6 @@ using brechtbaekelandt.ldap.ViewModels;
 
 namespace brechtbaekelandt.ldap.Controllers
 {
-    [Authorize]
     [Route("[controller]/[action]")]
     public class AccountController : Controller
     {
