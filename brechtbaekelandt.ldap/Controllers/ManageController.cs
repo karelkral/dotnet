@@ -4,6 +4,7 @@ using System.Net;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using brechtbaekelandt.ldap.Extensions;
+using brechtbaekelandt.ldap.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -18,8 +19,7 @@ namespace brechtbaekelandt.ldap.Controllers
     [Route("[controller]/[action]")]
     public class ManageController : Controller
     {
-        private readonly UserManager<LdapUser> _userManager;
-        private readonly SignInManager<LdapUser> _signInManager;
+        private readonly LdapUserManager _userManager;
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
         private readonly UrlEncoder _urlEncoder;
@@ -35,14 +35,12 @@ namespace brechtbaekelandt.ldap.Controllers
         }
 
         public ManageController(
-          UserManager<LdapUser> userManager,
-          SignInManager<LdapUser> signInManager,
+          LdapUserManager userManager,
           IEmailSender emailSender,
           ILogger<ManageController> logger,
           UrlEncoder urlEncoder)
         {
             _userManager = userManager;
-            _signInManager = signInManager;
             _emailSender = emailSender;
             _logger = logger;
             _urlEncoder = urlEncoder;
@@ -60,7 +58,11 @@ namespace brechtbaekelandt.ldap.Controllers
 
                     if (!result.Succeeded)
                     {
-                        this.TempData["ErrorMessage"] = result.Errors.Any() ? result.Errors.First().Description : "There was a problem crerating the user.";
+                        this.TempData["CreateErrorMessage"] = result.Errors.Any() ? result.Errors.First().Description : "There was a problem creating the user.";
+                    }
+                    else
+                    {
+                        this.TempData["CreateSucceededMessage"] = "The user was sucessfully created.";
                     }
                 }
                 catch (Exception e)
@@ -74,6 +76,42 @@ namespace brechtbaekelandt.ldap.Controllers
             {
                 Users = this._userManager.Users.ToCollection(),
                 NewUser = newUser
+            };
+
+            return this.View("Index", vm); ;
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> DeleteUser([FromQuery]string distinguishedName)
+        {
+            if (this.ModelState.IsValid)
+            {
+                try
+                {
+
+
+                    var result = await this._userManager.DeleteUserAsync(distinguishedName);
+
+                    if (!result.Succeeded)
+                    {
+                        this.TempData["DleteErrorMessage"] = result.Errors.Any() ? result.Errors.First().Description : "There was a problem deleting the user.";
+                    }
+                    else
+                    {
+                        this.TempData["DeleteSucceededMessage"] = "The user was sucessfully deleted.";
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
+            }
+
+            var vm = new ManageViewModel
+            {
+                Users = this._userManager.Users.ToCollection()
             };
 
             return this.View("Index", vm); ;

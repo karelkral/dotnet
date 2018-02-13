@@ -81,13 +81,13 @@ namespace brechtbaekelandt.ldap.Identity
             }
             catch (Exception e)
             {
-                return await Task.FromResult(IdentityResult.Failed(new IdentityError() { Code = "LdapUserCreateFailed", Description = "The user could not be created." }));
+                return await Task.FromResult(IdentityResult.Failed(new IdentityError() { Code = "LdapUserCreateFailed", Description = e.Message ?? "The user could not be created." }));
             }
 
             return await Task.FromResult(IdentityResult.Success);
         }
 
-        public Task<IdentityResult> DeleteAsync(string distinguishedName)
+        public async Task<IdentityResult> DeleteUserAsync(string distinguishedName)
         {
             try
             {
@@ -95,17 +95,12 @@ namespace brechtbaekelandt.ldap.Identity
             }
             catch (Exception e)
             {
-                return Task.FromResult(IdentityResult.Failed(new IdentityError() { Code = "LdapUserDeleteFailed", Description = "The user could not be deleted." }));
+                return await Task.FromResult(IdentityResult.Failed(new IdentityError() { Code = "LdapUserDeleteFailed", Description = e.Message ?? "The user could not be deleted." }));
             }
 
-            return Task.FromResult(IdentityResult.Success);
+            return await Task.FromResult(IdentityResult.Success);
         }
-
-        public override Task<IdentityResult> DeleteAsync(LdapUser user)
-        {
-            return this.DeleteAsync(user.DistinguishedName);
-        }
-
+        
         public override Task<string> GetEmailAsync(LdapUser user)
         {
             return base.GetEmailAsync(user);

@@ -194,17 +194,19 @@ namespace brechtbaekelandt.ldap.Services
 
         public void AddUser(LdapUser user, string password)
         {
-            var dn = $"CN={user.UserName}." + this._ldapSettings.ContainerName;
+            var dn = $"CN={user.UserName},{this._ldapSettings.ContainerName}";
 
             var attributeSet = new LdapAttributeSet
             {
-                new LdapAttribute("instanceType", "4"),
+                //new LdapAttribute("instanceType", "4"),
                 new LdapAttribute("objectCategory", $"CN=Person,CN=Schema,CN=Configuration,{this._ldapSettings.DomainDistinguishedName}"),
-                new LdapAttribute("objectClass", "user"),
+                new LdapAttribute("objectClass", new[] {"top", "person", "organizationalPerson", "user"}),
                 new LdapAttribute("name", user.UserName),
                 new LdapAttribute("cn", user.CommonName.Split(",")),
                 new LdapAttribute("sAMAccountName", user.UserName),
                 new LdapAttribute("userPrincipalName", user.UserName),
+                new LdapAttribute("uid", user.UserName),
+                new LdapAttribute("userAccountControl", "512"),
                 new LdapAttribute("givenName", user.FirstName),
                 new LdapAttribute("sn", user.LastName),
                 new LdapAttribute("mail", user.EmailAddress)
@@ -393,6 +395,8 @@ namespace brechtbaekelandt.ldap.Services
                 MemberOf = attributeSet.getAttribute("memberOf")?.StringValueArray,
                 CommonName = attributeSet.getAttribute("cn")?.StringValue,
                 UserName = attributeSet.getAttribute("name")?.StringValue,
+                SamAccountName = attributeSet.getAttribute("sAMAccountName")?.StringValue,
+                UserPrincipalName = attributeSet.getAttribute("userPrincipalName")?.StringValue,
                 Name = attributeSet.getAttribute("name")?.StringValue,
                 DistinguishedName = attributeSet.getAttribute("distinguishedName")?.StringValue ?? distinguishedName,
                 DisplayName = attributeSet.getAttribute("displayName")?.StringValue,
@@ -410,6 +414,7 @@ namespace brechtbaekelandt.ldap.Services
                     CountryName = attributeSet.getAttribute("co")?.StringValue,
                     CountryCode = attributeSet.getAttribute("c")?.StringValue
                 },
+
                 SamAccountType = int.Parse(attributeSet.getAttribute("sAMAccountType")?.StringValue ?? "0"),
             };
 

@@ -12,9 +12,35 @@
 
 <h5>LDAP users:</h5>
 
+@{
+    var deleteErrorMessage = this.TempData["DeleteErrorMessage"]?.ToString();
+
+    if (!string.IsNullOrEmpty(deleteErrorMessage))
+    {
+        <div class="alert alert-danger alert-dismissible">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Oops!</strong> The server returned an error: @deleteErrorMessage.
+        </div>
+    }
+}
+
+@{
+    var deleteSucceededMessage = this.TempData["DeleteSucceededMessage"]?.ToString();
+
+    if (!string.IsNullOrEmpty(deleteSucceededMessage))
+    {
+        <div class="alert alert-success alert-dismissible">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Success!</strong>  @deleteSucceededMessage.
+        </div>
+    }
+}
+
+
 <table class="table table-responsive table-striped">
     <thead class="thead-dark">
         <tr>
+            <th></th>
             <th>Username</th>
             <th>sAMAccountName</th>
             <th>User principal name</th>
@@ -29,6 +55,11 @@
         @foreach (var user in this.Model.Users)
         {
             <tr>
+                <td>
+                    <form asp-controller="Manage" asp-action="DeleteUser" asp-route-distinguishedName="@user.DistinguishedName" method="post">
+                        <button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-times"></i></button>
+                    </form>
+                </td>
                 <td>
                     <span>@user.UserName</span>
                 </td>
@@ -62,12 +93,25 @@
 
 <div asp-validation-summary="All" class="text-danger"></div>
 @{
-    var errorMessage = this.TempData["ErrorMessage"]?.ToString();
+    var createErrorMessage = this.TempData["CreateErrorMessage"]?.ToString();
 
-    if (!string.IsNullOrEmpty(errorMessage))
+    if (!string.IsNullOrEmpty(createErrorMessage))
     {
-        <div class="alert alert-danger">
-            <strong>Oops!</strong> @errorMessage
+        <div class="alert alert-danger alert-dismissible">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Oops!</strong> The server returned an error: @createErrorMessage.
+        </div>
+    }
+}
+
+@{
+    var createSucceededMessage = this.TempData["CreateSucceededMessage"]?.ToString();
+
+    if (!string.IsNullOrEmpty(createSucceededMessage))
+    {
+        <div class="alert alert-success alert-dismissible">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Success!</strong>  @createSucceededMessage.
         </div>
     }
 }
@@ -75,14 +119,22 @@
 <form method="post" asp-controller="Manage" asp-action="CreateUser">
     <div class="form-group">
         <div class="input-group">
-            <span class="input-group-prepend"><i class="fa fa-user-o"></i></span>
+            <span class="input-group-prepend">
+                <span class="input-group-text">
+                    <i class="fa fa-user-o"></i>
+                </span>
+            </span>
             <input asp-for="NewUser.UserName" placeholder="Username *" class="form-control" autocomplete="off" />
         </div>
         <span asp-validation-for="NewUser.UserName" class="text-danger"></span>
     </div>
     <div class="form-group">
         <div class="input-group">
-            <span class="input-group-prepend"><i class="fa fa-lock"></i></span>
+            <span class="input-group-prepend">
+                <span class="input-group-text">
+                    <i class="fa fa-lock"></i>
+                </span>
+            </span>
             <input asp-for="NewUser.Password" placeholder="Password *" class="form-control" autocomplete="off" />
         </div>
         <span asp-validation-for="NewUser.Password" class="text-danger"></span>
@@ -94,54 +146,86 @@
     </div>
     <div class="form-group">
         <div class="input-group">
-            <span class="input-group-prepend"><i class="fa fa-user-o"></i></span>
+            <span class="input-group-prepend">
+                <span class="input-group-text">
+                    <i class="fa fa-user-o"></i>
+                </span>
+            </span>
             <input asp-for="NewUser.CommonName" placeholder="Common name *" class="form-control" />
         </div>
         <span asp-validation-for="NewUser.CommonName" class="text-danger"></span>
     </div>
     <div class="form-group">
         <div class="input-group">
-            <span class="input-group-prepend"><i class="fa fa-user-o"></i></span>
+            <span class="input-group-prepend">
+                <span class="input-group-text">
+                    <i class="fa fa-user-o"></i>
+                </span>
+            </span>
             <input asp-for="NewUser.DisplayName" placeholder="Display name" class="form-control" />
         </div>
     </div>
     <div class="form-group">
         <div class="input-group">
-            <span class="input-group-prepend"><i class="fa fa-user-o"></i></span>
+            <span class="input-group-prepend">
+                <span class="input-group-text">
+                    <i class="fa fa-user-o"></i>
+                </span>
+            </span>
             <input asp-for="NewUser.FirstName" placeholder="First name *" class="form-control" />
         </div>
         <span asp-validation-for="NewUser.FirstName" class="text-danger"></span>
     </div>
     <div class="form-group">
         <div class="input-group">
-            <span class="input-group-prepend"><i class="fa fa-user-o"></i></span>
+            <span class="input-group-prepend">
+                <span class="input-group-text">
+                    <i class="fa fa-user-o"></i>
+                </span>
+            </span>
             <input asp-for="NewUser.LastName" placeholder="Last name *" class="form-control" />
         </div>
         <span asp-validation-for="NewUser.LastName" class="text-danger"></span>
     </div>
     <div class="form-group">
         <div class="input-group">
-            <span class="input-group-prepend"><i class="fa fa-user-o"></i></span>
+            <span class="input-group-prepend">
+                <span class="input-group-text">
+                    <i class="fa fa-user-o"></i>
+                </span>
+            </span>
             <input asp-for="NewUser.Description" placeholder="Description" class="form-control" />
         </div>
     </div>
     <div class="form-group">
         <div class="input-group">
-            <span class="input-group-prepend"><i class="fa fa-at"></i></span>
+            <span class="input-group-prepend">
+                <span class="input-group-text">
+                    <i class="fa fa-at"></i>
+                </span>
+            </span>
             <input asp-for="NewUser.EmailAddress" placeholder="Email address *" class="form-control" />
         </div>
         <span asp-validation-for="NewUser.EmailAddress" class="text-danger"></span>
     </div>
     <div class="form-group">
         <div class="input-group">
-            <span class="input-group-prepend"><i class="fa fa-phone"></i></span>
+            <span class="input-group-prepend">
+                <span class="input-group-text">
+                    <i class="fa fa-phone"></i>
+                </span>
+            </span>
             <input asp-for="NewUser.PhoneNumber" placeholder="Phone number" class="form-control" />
         </div>
     </div>
 
     <div class="form-group">
         <div class="input-group">
-            <span class="input-group-prepend"><i class="fa fa-map-marker"></i></span>
+            <span class="input-group-prepend">
+                <span class="input-group-text">
+                    <i class="fa fa-map-marker"></i>
+                </span>
+            </span>
             <input asp-for="NewUser.Address.Street" placeholder="Street" class="form-control" />
 
         </div>
@@ -150,7 +234,11 @@
         <div class="col">
             <div class="form-group">
                 <div class="input-group">
-                    <span class="input-group-prepend"><i class="fa fa-map-marker"></i></span>
+                    <span class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fa fa-map-marker"></i>
+                        </span>
+                    </span>
                     <input asp-for="NewUser.Address.PostalCode" placeholder="Postal code" class="form-control" />
                 </div>
             </div>
@@ -158,7 +246,11 @@
         <div class="col">
             <div class="form-group">
                 <div class="input-group">
-                    <span class="input-group-prepend"><i class="fa fa-map-marker"></i></span>
+                    <span class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fa fa-map-marker"></i>
+                        </span>
+                    </span>
                     <input asp-for="NewUser.Address.City" placeholder="City" class="form-control" />
 
                 </div>
@@ -167,18 +259,26 @@
     </div>
     <div class="form-group">
         <div class="input-group">
-            <span class="input-group-prepend"><i class="fa fa-map-marker"></i></span>
+            <span class="input-group-prepend">
+                <span class="input-group-text">
+                    <i class="fa fa-map-marker"></i>
+                </span>
+            </span>
             <input asp-for="NewUser.Address.StateName" placeholder="State" class="form-control" />
 
         </div>
     </div>
     <div class="form-group">
         <div class="input-group">
-            <span class="input-group-prepend"><i class="fa fa-map-marker"></i></span>
+            <span class="input-group-prepend">
+                <span class="input-group-text">
+                    <i class="fa fa-map-marker"></i>
+                </span>
+            </span>
             <input asp-for="NewUser.Address.CountryName" placeholder="Country" class="form-control" />
         </div>
     </div>
-   
+
     <div class="form-group">
         <button type="submit" class="btn btn-primary">Create!</button>
     </div>
