@@ -30,7 +30,6 @@ namespace brechtbaekelandt.ldap.Identity.Models
         public string Name { get; set; }
         
         [NotMapped]
-        [Required(ErrorMessage = "You must enter your common name!")]
         public string CommonName { get; set; }
 
         [NotMapped]
@@ -47,6 +46,9 @@ namespace brechtbaekelandt.ldap.Identity.Models
         
         [NotMapped]
         public bool IsDomainAdmin { get; set; }
+
+        [NotMapped]
+        public bool MustChangePasswordOnNextLogon { get; set; }
 
         [NotMapped]
         public string UserPrincipalName { get; set; }

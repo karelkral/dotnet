@@ -194,19 +194,19 @@ namespace brechtbaekelandt.ldap.Services
 
         public void AddUser(LdapUser user, string password)
         {
-            var dn = $"CN={user.UserName},{this._ldapSettings.ContainerName}";
+            var dn = $"CN={user.FirstName} {user.LastName},{this._ldapSettings.ContainerName}";
 
             var attributeSet = new LdapAttributeSet
             {
-                //new LdapAttribute("instanceType", "4"),
+                new LdapAttribute("instanceType", "4"),
                 new LdapAttribute("objectCategory", $"CN=Person,CN=Schema,CN=Configuration,{this._ldapSettings.DomainDistinguishedName}"),
                 new LdapAttribute("objectClass", new[] {"top", "person", "organizationalPerson", "user"}),
                 new LdapAttribute("name", user.UserName),
-                new LdapAttribute("cn", user.CommonName.Split(",")),
+                new LdapAttribute("cn", $"{user.FirstName} {user.LastName}"),
                 new LdapAttribute("sAMAccountName", user.UserName),
                 new LdapAttribute("userPrincipalName", user.UserName),
-                new LdapAttribute("uid", user.UserName),
-                new LdapAttribute("userAccountControl", "512"),
+                new LdapAttribute("unicodePwd", Convert.ToBase64String(Encoding.Unicode.GetBytes($"\"{user.Password}\""))),
+                new LdapAttribute("userAccountControl", user.MustChangePasswordOnNextLogon ? "544" : "512"),
                 new LdapAttribute("givenName", user.FirstName),
                 new LdapAttribute("sn", user.LastName),
                 new LdapAttribute("mail", user.EmailAddress)
@@ -249,20 +249,7 @@ namespace brechtbaekelandt.ldap.Services
             {
                 attributeSet.Add(new LdapAttribute("c", user.Address.CountryCode));
             }
-
-            var quotedPassword = $"\"{password}\"";
-
-            var passwordBytes = Encoding.UTF8.GetBytes(quotedPassword);
-            var passwordUnicodeBytes = Encoding.Convert(Encoding.UTF8, Encoding.Unicode, passwordBytes);
-
-            attributeSet.Add(new LdapAttribute("unicodePwd",
-                Convert.ToBase64String(passwordUnicodeBytes).ToSbyteArray()));
-
-            //if (user.MustChangePasswordOnNextLogon)
-            //{
-            //    attributeSet.Add(new LdapAttribute("pwdLastSet", "-1"));
-            //}
-
+            
             var newEntry = new Novell.Directory.Ldap.LdapEntry(dn, attributeSet);
 
             using (var ldapConnection = this.GetConnection())

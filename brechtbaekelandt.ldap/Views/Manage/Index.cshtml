@@ -116,122 +116,103 @@
     }
 }
 
-<form method="post" asp-controller="Manage" asp-action="CreateUser">
-    <div class="form-group">
-        <div class="input-group">
-            <span class="input-group-prepend">
-                <span class="input-group-text">
-                    <i class="fa fa-user-o"></i>
-                </span>
-            </span>
-            <input asp-for="NewUser.UserName" placeholder="Username *" class="form-control" autocomplete="off" />
-        </div>
-        <span asp-validation-for="NewUser.UserName" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <div class="input-group">
-            <span class="input-group-prepend">
-                <span class="input-group-text">
-                    <i class="fa fa-lock"></i>
-                </span>
-            </span>
-            <input asp-for="NewUser.Password" placeholder="Password *" class="form-control" autocomplete="off" />
-        </div>
-        <span asp-validation-for="NewUser.Password" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <div class="checkbox">
-            <label><input asp-for="NewUser.IsDomainAdmin" type="checkbox" /> <span>Is domain admin?</span></label>
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="input-group">
-            <span class="input-group-prepend">
-                <span class="input-group-text">
-                    <i class="fa fa-user-o"></i>
-                </span>
-            </span>
-            <input asp-for="NewUser.CommonName" placeholder="Common name *" class="form-control" />
-        </div>
-        <span asp-validation-for="NewUser.CommonName" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <div class="input-group">
-            <span class="input-group-prepend">
-                <span class="input-group-text">
-                    <i class="fa fa-user-o"></i>
-                </span>
-            </span>
-            <input asp-for="NewUser.DisplayName" placeholder="Display name" class="form-control" />
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="input-group">
-            <span class="input-group-prepend">
-                <span class="input-group-text">
-                    <i class="fa fa-user-o"></i>
-                </span>
-            </span>
-            <input asp-for="NewUser.FirstName" placeholder="First name *" class="form-control" />
-        </div>
-        <span asp-validation-for="NewUser.FirstName" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <div class="input-group">
-            <span class="input-group-prepend">
-                <span class="input-group-text">
-                    <i class="fa fa-user-o"></i>
-                </span>
-            </span>
-            <input asp-for="NewUser.LastName" placeholder="Last name *" class="form-control" />
-        </div>
-        <span asp-validation-for="NewUser.LastName" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <div class="input-group">
-            <span class="input-group-prepend">
-                <span class="input-group-text">
-                    <i class="fa fa-user-o"></i>
-                </span>
-            </span>
-            <input asp-for="NewUser.Description" placeholder="Description" class="form-control" />
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="input-group">
-            <span class="input-group-prepend">
-                <span class="input-group-text">
-                    <i class="fa fa-at"></i>
-                </span>
-            </span>
-            <input asp-for="NewUser.EmailAddress" placeholder="Email address *" class="form-control" />
-        </div>
-        <span asp-validation-for="NewUser.EmailAddress" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <div class="input-group">
-            <span class="input-group-prepend">
-                <span class="input-group-text">
-                    <i class="fa fa-phone"></i>
-                </span>
-            </span>
-            <input asp-for="NewUser.PhoneNumber" placeholder="Phone number" class="form-control" />
-        </div>
-    </div>
+        <form method="post" asp-controller="Manage" asp-action="CreateUser">
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fa fa-user-o"></i>
+                        </span>
+                    </span>
+                    <input asp-for="NewUser.UserName" placeholder="Username *" class="form-control" autocomplete="off" />
+                </div>
+                <span asp-validation-for="NewUser.UserName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fa fa-lock"></i>
+                        </span>
+                    </span>
+                    <input asp-for="NewUser.Password" placeholder="Password *" class="form-control" autocomplete="off" />
+                </div>
+                <span asp-validation-for="NewUser.Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label><input asp-for="NewUser.MustChangePasswordOnNextLogon" type="checkbox" /> <span>Must change password on next logon</span></label>
+                </div>
+            </div>
+            @*<div class="form-group">
+                <div class="checkbox">
+                    <label><input asp-for="NewUser.IsDomainAdmin" type="checkbox" /> <span>Is domain admin?</span></label>
+                </div>
+            </div>*@
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fa fa-user-o"></i>
+                        </span>
+                    </span>
+                    <input asp-for="NewUser.DisplayName" placeholder="Display name" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fa fa-user-o"></i>
+                        </span>
+                    </span>
+                    <input asp-for="NewUser.FirstName" placeholder="First name *" class="form-control" />
+                </div>
+                <span asp-validation-for="NewUser.FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fa fa-user-o"></i>
+                        </span>
+                    </span>
+                    <input asp-for="NewUser.LastName" placeholder="Last name *" class="form-control" />
+                </div>
+                <span asp-validation-for="NewUser.LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fa fa-user-o"></i>
+                        </span>
+                    </span>
+                    <input asp-for="NewUser.Description" placeholder="Description" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fa fa-at"></i>
+                        </span>
+                    </span>
+                    <input asp-for="NewUser.EmailAddress" placeholder="Email address *" class="form-control" />
+                </div>
+                <span asp-validation-for="NewUser.EmailAddress" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fa fa-phone"></i>
+                        </span>
+                    </span>
+                    <input asp-for="NewUser.PhoneNumber" placeholder="Phone number" class="form-control" />
+                </div>
+            </div>
 
-    <div class="form-group">
-        <div class="input-group">
-            <span class="input-group-prepend">
-                <span class="input-group-text">
-                    <i class="fa fa-map-marker"></i>
-                </span>
-            </span>
-            <input asp-for="NewUser.Address.Street" placeholder="Street" class="form-control" />
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
             <div class="form-group">
                 <div class="input-group">
                     <span class="input-group-prepend">
@@ -239,11 +220,37 @@
                             <i class="fa fa-map-marker"></i>
                         </span>
                     </span>
-                    <input asp-for="NewUser.Address.PostalCode" placeholder="Postal code" class="form-control" />
+                    <input asp-for="NewUser.Address.Street" placeholder="Street" class="form-control" />
+
                 </div>
             </div>
-        </div>
-        <div class="col">
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fa fa-map-marker"></i>
+                                </span>
+                            </span>
+                            <input asp-for="NewUser.Address.PostalCode" placeholder="Postal code" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fa fa-map-marker"></i>
+                                </span>
+                            </span>
+                            <input asp-for="NewUser.Address.City" placeholder="City" class="form-control" />
+
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="form-group">
                 <div class="input-group">
                     <span class="input-group-prepend">
@@ -251,35 +258,22 @@
                             <i class="fa fa-map-marker"></i>
                         </span>
                     </span>
-                    <input asp-for="NewUser.Address.City" placeholder="City" class="form-control" />
+                    <input asp-for="NewUser.Address.StateName" placeholder="State" class="form-control" />
 
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="input-group">
-            <span class="input-group-prepend">
-                <span class="input-group-text">
-                    <i class="fa fa-map-marker"></i>
-                </span>
-            </span>
-            <input asp-for="NewUser.Address.StateName" placeholder="State" class="form-control" />
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fa fa-map-marker"></i>
+                        </span>
+                    </span>
+                    <input asp-for="NewUser.Address.CountryName" placeholder="Country" class="form-control" />
+                </div>
+            </div>
 
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="input-group">
-            <span class="input-group-prepend">
-                <span class="input-group-text">
-                    <i class="fa fa-map-marker"></i>
-                </span>
-            </span>
-            <input asp-for="NewUser.Address.CountryName" placeholder="Country" class="form-control" />
-        </div>
-    </div>
-
-    <div class="form-group">
-        <button type="submit" class="btn btn-primary">Create!</button>
-    </div>
-</form>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Create!</button>
+            </div>
+        </form>
