@@ -33,7 +33,6 @@ namespace brechtbaekelandt.ldap.Controllers
         }
 
         [HttpGet]
-        [AllowAnonymous]
         public async Task<IActionResult> Signin(string returnUrl = null)
         {
             // Clear the existing external cookie to ensure a clean login process
@@ -45,7 +44,6 @@ namespace brechtbaekelandt.ldap.Controllers
         }
 
         [HttpPost]
-        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Signin(SigninViewModel model, string returnUrl = null)
         {
