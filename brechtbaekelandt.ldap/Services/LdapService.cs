@@ -269,7 +269,7 @@ namespace brechtbaekelandt.ldap.Services
 
         public bool Authenticate(string distinguishedName, string password)
         {
-            using (var ldapConnection = new LdapConnection() { SecureSocketLayer = true })
+            using (var ldapConnection = new LdapConnection() { SecureSocketLayer = this._ldapSettings.UseSSL })
             {
                 ldapConnection.Connect(this._ldapSettings.ServerName, this._ldapSettings.ServerPort);
 
